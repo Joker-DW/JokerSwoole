@@ -1,0 +1,31 @@
+{
+    "name": "joker/swoole",
+    "description": "The Swoole distributed Framework.",
+    "type": "library",
+    "keywords": ["swoole", "distributed"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Joker",
+            "email": "joker@empty.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "php": "^7.2.5",
+        "ext-posix": "*",
+        "ext-swoole": "*",
+        "illuminate/database": "7.*"
+    },
+    "autoload": {
+        "psr-4": {
+            "Joker\\Swoole\\": "src/"
+        }
+    },
+    "repositories": {
+        "packagist": {
+            "type": "composer",
+            "url": "https://mirrors.aliyun.com/composer/"
+        }
+    }
+}

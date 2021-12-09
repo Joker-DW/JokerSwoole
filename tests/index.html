@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Swoole Demo</title>
+</head>
+<body>
+
+</body>
+<script>
+
+    function getQueryString(name) {
+        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+        var r = window.location.search.substr(1).match(reg);
+        if (r != null) return unescape(r[2]);
+        return null;
+    }
+
+    var wsServer = 'ws://10.0.0.201:9501';
+    var websocket = new WebSocket(wsServer);
+
+    var role;
+
+    websocket.onopen = function (evt) {
+        console.log("Connected to WebSocket server.");
+        var roomNo2 = getQueryString('roomNo');
+        if (roomNo2 != null){
+            websocket.send('{"code":0, "data":{"type": 1, "roomNo": ' + roomNo2 + '}}');
+            role = 2;
+        }else{
+            role = 1;
+            websocket.send('{"code":0, "data":{"type": 2}}');
+        }
+    };
+
+    websocket.onclose = function (evt) {
+        console.log("Disconnected");
+    };
+
+    websocket.onmessage = function (evt) {
+        var data = JSON.parse(evt.data);
+        switch (data.code){
+            case 999:
+                websocket.send('{"code":999, "data": {"id": "' + data.data.id + '"}}');
+                break;
+            case 0:
+                console.log('Retrieved data from server: ' + evt.data);
+                break;
+        }
+    };
+
+    websocket.onerror = function (evt, e) {
+        console.log('Error occured: ' + evt.data);
+    };
+
+</script>
+</html>
